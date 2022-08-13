@@ -81,6 +81,36 @@ Use it to make something cool, have fun, and share what you've learned with othe
 
 
 সাধারণত যেসব functions সরাসরি output echo করে দেয় সেই fucntions এর আগে get বসালে সেই functions output returns করে। যেমনঃ bloginfo -> get_bloginfo()
+Theme install করার সাথে সাথে যেই functions গুলো আমরা চাই load হবে সেই functions গুলো নিচের after_setup_theme hook এর মধ্যে লিখতে হবে। যেমনঃ
+
+add_action( "after_setup_theme", "alpha_bootstrapping" );
+
+function alpha_bootstrapping() {
+    load_theme_textdomain( "alpha" );
+    add_theme_support( "post-thumbnails" );
+    add_theme_support( "title-tag" );
+
+    $alpha_custom_logo_defaults = array(
+        "width"     => '100',
+        "height"    => '100'
+    );
+    add_theme_support("custom-logo", $alpha_custom_logo_defaults);
+
+    add_theme_support("custom-background");
+
+    $alpha_custom_header_details = array (
+        'header-text' => true,
+        'default-text-color' => '#222',
+        'width' => 1200,
+        'height' => 600,
+        'flex-height' => true,
+        'flex-width'  => true
+    );
+    add_theme_support( "custom-header", $alpha_custom_header_details );
+
+    register_nav_menu( "topmenu", __( "Top Menu", "alpha" ) );
+    register_nav_menu( "footermenu", __( "Footer Menu", "alpha" ) );
+}
 
 
 
@@ -360,6 +390,7 @@ Old version:
 wp_enqueue_script("alpha-mina", get_template_directory_uri()."/assets/js/main.js", array("jquery"), "0.0.1", true);
 New version(start version-4.7): 
 wp_enqueue_script("alpha-mina", get_theme_file_uri("/assets/js/main.js"), array("jquery"), "0.0.1", true);
+wp_enqueue_style("bootstrap-css", get_theme_file_uri("/assets/css/bootstrap.css"), null, "0.0.1", true);
 
 
 
@@ -367,7 +398,7 @@ wp_enqueue_script("alpha-mina", get_theme_file_uri("/assets/js/main.js"), array(
     To download the code – go to here https://github.com/LearnWithHasinHayder/wp-theme-alpha/releases/tag/may23-cache-busting 
     and download the zip file. Extract it, rename as “alpha” and paste in your wp-content/themes/ folder
 
-থিমের url এ development mood এ এক version ও live mood এ অন্য version ব্যাবহার করা।
+থিমের url এ development mood এ এক version ও live mood এ অন্য version ব্যবহার করা।
 Functions.php তে নিচের condition টি লিখতে হবে।
 
 if(site_url() == "http://localhost/wordpress-theme-development/wtd"){
@@ -557,22 +588,40 @@ _e("your text", "text domain");
                     -------------------------------
 
 ৪.১ - প্রজেক্ট ১ - একটা কামিং সুন এইচটিএমএল টেমপ্লেট কে স্ক্র‍্যাচ থেকে থিমে কনভার্ট করা
-    Download From https://github.com/LearnWithHasinHayder/launcher/releases/tag/may24-launcher
+    Download From https://github.com/LearnWithHasinHayder/launcher/releases/tag/may24-launcher 
     Unzip, rename the folder as “launcher” and paste it in your wp-content/themes/ folder
+Wp_header() and wp_footer() - theme এ header and footer load করে।
+get_header() and get_footer - theme এর template এ header.php এবং footer.php - includes করে।
+
 
     
 ৪.২ - কাস্টম ফিল্ডের সাথে পরিচয় - খুবই ইম্পর্ট্যান্ট
-    Download code files from here https://github.com/LearnWithHasinHayder/launcher/releases/tag/may27-files
-    
+    Download code files from here https://github.com/LearnWithHasinHayder/launcher/releases/tag/may27-files 
+User এর কাছ থেকে data নিয়ে যদি display করতে চাই তবে custom field ব্যবহার করতে হবে।
+ 
+Template এ data ধরার জন্যঃ
+$button_label = get_post_meta( get_the_ID(), 'button label', true );
+Uporer line এ true দেয়ার কারনে আমরা return data হিসেবে single data পাবো, তা না হলে array return হতো।
+Template এ data show করার জন্যঃ
+<input type="submit" value="<?php echo esc_attr($button_label); ?>" class="btn btn-primary">
+
+
     
 ৪.৩ - ওয়ার্ডপ্রেসে পিএইচপি স্ক্রিপ্ট থেকে জাভাস্ক্রিপ্টের কাছে ডেটা পাঠানো - খুবই ইম্পর্ট্যান্ট
-    Download code files from here https://github.com/LearnWithHasinHayder/launcher/releases/tag/may27-files
+    Download code files from here https://github.com/LearnWithHasinHayder/launcher/releases/tag/may27-files 
+PHP স্ক্রিপ্ট থেকে Javascript কাছে ডেটা পাঠানোর জন্যঃ
+wp_localize_script() function ব্যবহার করে এই data পাঠানো যায়। নিচের ছবি দেখলে বঝা যাবে।
+ 
+
 
 
 ৪.৪ - পেজ টেমপ্লেটে অন-ডিমান্ড অ্যাসেটস (JS/CSS) লোড করা
-    Download code files from here https://github.com/LearnWithHasinHayder/launcher/releases/tag/may27-files
-    
-    
+    Download code files from here https://github.com/LearnWithHasinHayder/launcher/releases/tag/may27-files 
+আমাদের কোন page load হচ্ছে তা বোঝার জন্যঃ
+echo basename( get_page_template();
+এবার উপরের function ব্যবহার করে page template এর নাম if-else condition এ বসিয়ে css বা js load করতে পারবো।
+
+
 
                     -------------------------------
                         ৫ - পোস্ট নিয়ে কথাবার্তা
