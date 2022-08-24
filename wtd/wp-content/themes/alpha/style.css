@@ -84,3 +84,53 @@ h2.post-title {
     color: #222;
     text-decoration: none;
 }
+.navigation{
+    margin-bottom: 80px;
+}
+.post-title a{
+    color: #222;
+}
+
+.dashicons{
+    color:#ccc;
+    font-size: 100px;
+    margin-bottom: 40px;
+}
+
+.authorimage img{
+    border-radius: 48px;
+}
+
+.authorsection{
+    border:1px solid #ccc;
+    padding:25px;
+}
+
+.header-logo{
+    margin-top: 50px;
+}
+
+.header-logo img{
+    border-radius: 50px;
+}
+
+.authorpage{
+    margin-bottom: 50px;
+}
+
+
+
+.testimonials img{
+    width:120px;
+    height: auto;
+    border-radius: 60px;
+    margin-bottom: 30px;
+}
+
+.search-highlight{
+    background-color: #ff0;
+    font-weight: bold;
+}
+
+
+
